@@ -1,6 +1,5 @@
 package com.home.contacts.entity;
 
-import com.home.contacts.entity.enums.Gender;
 import com.home.contacts.entity.enums.Status;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -37,8 +36,7 @@ public class UserEntity {
 
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private String gender;
 
     private String password;
 

@@ -33,6 +33,7 @@ public class ContactEntity {
 
     private Date updated;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne

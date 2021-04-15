@@ -10,15 +10,18 @@ import java.lang.annotation.*;
 @Documented
 public @interface FieldMatch {
 
-    String message() default "";
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
-    String first();
-    String second();
+    String message() default "Fields values do not match!";
 
-    @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
+    String firstField();
+
+    String secondField();
+
+    @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
-    @Documented
     @interface List {
         FieldMatch[] value();
     }
