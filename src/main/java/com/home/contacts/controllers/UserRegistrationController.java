@@ -35,6 +35,7 @@ public class UserRegistrationController {
 
         if (existingUser != null) {
             result.rejectValue("username", null, "There is already an account with that email");
+            // TODO check it
         }
 
         if (result.hasErrors()) {
