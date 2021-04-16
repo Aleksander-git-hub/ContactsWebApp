@@ -26,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers(
+                            "/",
+                            "/logout",
                             "/registration",
                             "/registration/activate/**",
                             "/js/**",
@@ -33,10 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             "/img/**",
                             "/webjars/**"
                     ).permitAll()
+                    .antMatchers("/auth/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
                         .loginPage("/login").permitAll()
+                        .defaultSuccessUrl("/auth")
                 .and()
                     .logout()
                         .invalidateHttpSession(true)
