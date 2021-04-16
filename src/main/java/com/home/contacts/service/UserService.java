@@ -2,9 +2,8 @@ package com.home.contacts.service;
 
 import com.home.contacts.dto.UserCreationDto;
 import com.home.contacts.entity.UserEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService extends UserDetailsService {
+public interface UserService {
 
     void save(UserCreationDto userDto);
 
