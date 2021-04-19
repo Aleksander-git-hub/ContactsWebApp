@@ -16,26 +16,21 @@
         <div class="row">
             <div class="col-md-6 col-sm-offset-3">
 
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">
+                        [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
+                    </div>
+                </div>
+
+                <div th:if="${param.logout}">
+                    <div class="alert alert-info">
+                        You have been logged out!
+                    </div>
+                </div>
+
                 <h1>Login Page</h1>
 
-                <form th:action="@{/login}" th:object="${user}" method="post">
-
-                    <div th:if="${param.error}">
-                        <div class="alert alert-danger">
-                            Invalid username or password!
-                        </div>
-                    </div>
-
-                    <div th:if="${param.logout}">
-                        <div class="alert alert-info">
-                            You have been logged out!
-                        </div>
-                    </div>
-
-                    <p class="alert alert-danger"
-                       th:if="${#fields.hasGlobalErrors()}"
-                       th:each="error : ${#fields.errors('global')}"
-                       th:text="${error}">LOGIN ERROR</p>
+                <form th:action="@{/login}"  method="post">
 
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -43,10 +38,8 @@
                                class="form-control"
                                placeholder="Enter Username"
                                name="username"
-                               th:field="*{username}"/>
-                        <p class="alert alert-danger"
-                           th:if="${#fields.hasErrors('username')}"
-                           th:errors="*{username}">USERNAME ERROR</p>
+                                th:required="required"
+                                th:autofocus="autofous"/>
                     </div>
 
                     <div class="form-group">
@@ -56,10 +49,7 @@
                                class="form-control"
                                placeholder="Enter Password"
                                name="password"
-                               th:field="*{password}"/>
-                        <p class="alert alert-danger"
-                           th:if="${#fields.hasErrors('password')}"
-                           th:errors="*{password}">PASSWORD ERROR</p>
+                               th:required="required"/>
                     </div>
 
                     <div class="form-group">
