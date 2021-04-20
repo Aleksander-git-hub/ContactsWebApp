@@ -12,4 +12,8 @@ public interface ContactService {
     ContactEntity findByPhoneNumberAndOwnerUsername(String phone, String username);
 
     void save(ContactCreationDto newContact, String username);
+
+    ContactEntity findById(Long contactId);
+
+    void update(Long contactId, ContactCreationDto contact);
 }

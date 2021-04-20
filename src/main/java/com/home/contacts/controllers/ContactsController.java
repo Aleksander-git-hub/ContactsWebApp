@@ -2,16 +2,14 @@ package com.home.contacts.controllers;
 
 import com.home.contacts.dto.ContactCreationDto;
 import com.home.contacts.entity.ContactEntity;
+import com.home.contacts.exceptions.ResourceNotFoundException;
+import com.home.contacts.mapper.ContactMapper;
 import com.home.contacts.service.ContactService;
-import com.home.contacts.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -19,6 +17,9 @@ import java.security.Principal;
 @Controller
 @RequestMapping(value = "/auth")
 public class ContactsController {
+
+    @Autowired
+    private ContactMapper contactMapper;
 
     @Autowired
     private ContactService contactService;
@@ -56,4 +57,24 @@ public class ContactsController {
         contactService.save(contact, principal.getName());
         return "redirect:new?success";
     }
+
+    @GetMapping(value = "/edit/{id}")
+    public String showEditForm(Model model, @PathVariable Long id) {
+        model.addAttribute("contact",
+                contactMapper.toDto(contactService.findById(id)));
+        return "edit";
+    }
+
+    @PostMapping(value = "/edit/{id}")
+    public String update(@ModelAttribute("contact") @Valid ContactCreationDto contact,
+                         BindingResult result, @PathVariable Long id) {
+        if (result.hasErrors()) {
+            return "edit";
+        }
+
+        contactService.update(id, contact);
+        return "redirect:{id}?success";
+    }
 }
+
+

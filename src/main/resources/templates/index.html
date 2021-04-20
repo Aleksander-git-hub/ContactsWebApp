@@ -66,12 +66,12 @@
                         <th th:text="${contact.getPhoneNumber()}">Phone</th>
                         <th th:text="${contact.getEmail()}">Email</th>
                         <th>
-                            <a href="@{/contacts/edit/{id}(id=${contact.getId()})}" class="btn btn-success">
+                            <a th:href="@{/auth/edit/{id}(id=${contact.getId()})}" class="btn btn-success">
                                 <i class="text-capitalize">Edit</i>
                             </a>
                         </th>
                         <th>
-                            <a href="@{/contacts/delete/{id}(id=${contact.getId()})}" class="btn btn-danger">
+                            <a th:href="@{/auth/delete/{id}(id=${contact.getId()})}" class="btn btn-danger">
                                 <i class="text-capitalize">Delete</i>
                             </a>
                         </th>
