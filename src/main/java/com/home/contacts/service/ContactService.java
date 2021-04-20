@@ -16,4 +16,6 @@ public interface ContactService {
     ContactEntity findById(Long contactId);
 
     void update(Long contactId, ContactCreationDto contact);
+
+    void delete(Long contactId);
 }

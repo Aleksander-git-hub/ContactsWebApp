@@ -75,6 +75,12 @@ public class ContactsController {
         contactService.update(id, contact);
         return "redirect:{id}?success";
     }
+
+    @PostMapping(value = "/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        contactService.delete(id);
+        return "redirect:auth";
+    }
 }
 
 

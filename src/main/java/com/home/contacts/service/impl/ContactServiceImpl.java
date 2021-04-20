@@ -69,4 +69,14 @@ public class ContactServiceImpl implements ContactService {
         contactRepository.save(existingContact);
     }
 
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        ContactEntity existingContact = findById(id);
+        existingContact.setOwner(null);
+        existingContact.setUpdated(new Date());
+        existingContact.setStatus(Status.DELETED);
+        contactRepository.save(existingContact);
+    }
+
 }
