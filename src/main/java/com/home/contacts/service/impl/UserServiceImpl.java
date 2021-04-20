@@ -5,6 +5,7 @@ import com.home.contacts.email.MailSender;
 import com.home.contacts.entity.RoleEntity;
 import com.home.contacts.entity.UserEntity;
 import com.home.contacts.entity.enums.Status;
+import com.home.contacts.exceptions.ResourceNotFoundException;
 import com.home.contacts.repository.RoleRepository;
 import com.home.contacts.repository.UserRepository;
 import com.home.contacts.service.MessageGenerate;
@@ -72,5 +73,11 @@ public class UserServiceImpl implements UserService {
         user.setStatus(Status.ACTIVE);
 
         userRepository.save(user);
+    }
+
+    @Override
+    public UserEntity findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found by id: " + id));
     }
 }

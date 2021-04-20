@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-@Builder(toBuilder = true)
 @FieldMatch.List({
         @FieldMatch(
                 firstField = "password",

@@ -10,4 +10,6 @@ public interface UserService {
     UserEntity findByUsername(String username);
 
     void activate(String code);
+
+    UserEntity findById(Long id);
 }
