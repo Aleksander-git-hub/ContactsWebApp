@@ -2,7 +2,6 @@ package com.home.contacts.controllers;
 
 import com.home.contacts.dto.ContactCreationDto;
 import com.home.contacts.entity.ContactEntity;
-import com.home.contacts.exceptions.ResourceNotFoundException;
 import com.home.contacts.mapper.ContactMapper;
 import com.home.contacts.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,10 +75,10 @@ public class ContactsController {
         return "redirect:{id}?success";
     }
 
-    @PostMapping(value = "/delete/{id}")
+    @GetMapping(value = "/delete/{id}")
     public String delete(@PathVariable Long id) {
         contactService.delete(id);
-        return "redirect:auth";
+        return "redirect:/auth";
     }
 }
 

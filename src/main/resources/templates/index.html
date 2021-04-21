@@ -39,6 +39,12 @@
 
                 <h1 th:text="'Hello, ' + ${username} + '!'">WELCOME</h1>
 
+                <div th:if="${param.success}">
+                    <div class="alert alert-info">
+                        The Contact has been deleted successfully!
+                    </div>
+                </div>
+
                 <p class="my-5">
                     <a href="/auth/new" class="btn btn-info">
                         <i class="text-capitalize">Add Contact</i>
@@ -60,65 +66,47 @@
 
                     <tbody>
                     <tr th:each="contact : ${contacts}">
-                        <th scope="row" th:text="${contact.getId()}">id</th>
-                        <th th:text="${contact.getFirstName()}">FirstName</th>
-                        <th th:text="${contact.getLastName()}">LastName</th>
-                        <th th:text="${contact.getPhoneNumber()}">Phone</th>
-                        <th th:text="${contact.getEmail()}">Email</th>
-                        <th>
-                            <a th:href="@{/auth/edit/{id}(id=${contact.getId()})}" class="btn btn-success">
-                                <i class="text-capitalize">Edit</i>
-                            </a>
-                        </th>
-                        <th>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                        <td scope="row" th:text="${contact.getId()}">id</td>
+                        <td th:text="${contact.getFirstName()}">FirstName</td>
+                        <td th:text="${contact.getLastName()}">LastName</td>
+                        <td th:text="${contact.getPhoneNumber()}">Phone</td>
+                        <td th:text="${contact.getEmail()}">Email</td>
+                        <td>
+                            <a th:href="@{/auth/edit/{id}(id=${contact.getId()})}" class="btn btn-warning">Edit</a>
+                        </td>
+                        <td>
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    th:attr="data-target='#exampleModal' + *{contact.id}">
                                 Delete
                             </button>
 
-                            <div class="modal fade"
-                                 id="exampleModal"
-                                 tabindex="-1"
-                                 role="dialog"
-                                 aria-labelledby="exampleModalLabel"
-                                 aria-hidden="true">
-
+                            <!-- Modal -->
+                            <div class="modal fade" th:id="*{'exampleModal' + {contact.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
-
                                     <div class="modal-content">
-
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Deleting...</h5>
-
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
-
                                         </div>
-
                                         <div class="modal-body">
-                                            Are you sure Delete this Contact?
+                                            Do you want to delete this Contact?
                                         </div>
-
-
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" th:href="@{/auth/delete/{id}(id=${contact.getId()})}"
-                                                    class="btn btn-primary">Delete!</button>
-                                            <!--<a th:href="@{/auth/delete/{id}(id=${contact.getId()})}" class="btn btn-danger">
-                                <i class="text-capitalize">Delete</i>
-
-                            </a>-->
+                                            <a th:href="@{/auth/delete/{id}(id=${contact.getId()})}" class="btn btn-primary">
+                                                Yes, delete!
+                                            </a>
                                         </div>
-
-
                                     </div>
-
                                 </div>
-
                             </div>
-                        </th>
-                    </tr>
 
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
 
@@ -126,6 +114,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
