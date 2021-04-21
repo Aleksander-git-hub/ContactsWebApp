@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -27,7 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(
                             "/",
-                            "/logout",
                             "/registration",
                             "/registration/activate/**",
                             "/js/**",
@@ -35,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             "/img/**",
                             "/webjars/**"
                     ).permitAll()
+                    .antMatchers("/**").authenticated()
                     .antMatchers("/auth/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
@@ -43,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .loginPage("/login")
                         .defaultSuccessUrl("/auth")
                 .and()
-                    .logout()
+                    .logout().permitAll()
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

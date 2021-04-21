@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta charset="UTF-8">
@@ -13,11 +14,48 @@
 
     <title>ContactsApp</title>
 </head>
+
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+            </li>
+        </ul>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+
+            <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+                <button class="btn btn-outline-success my-2 my-sm-0">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
     <div class="container">
         <div class="starter-template">
             <h1>Welcome to our ContactsApp!</h1>
-            <div class="form-group">
+
+            <div sec:authorize="isAuthenticated()">
+                <span>Do you want exit? <a href="/" th:href="@{/logout}">Log Out here!</a> </span>
+                <br/>
+                <span>Finished? <a href="/auth" th:href="@{/auth}">Go Mine Page!</a> </span>
+            </div>
+
+            <div sec:authorize="isAnonymous()" class="form-group">
                 <span>Do you want enter? <a href="/" th:href="@{/login}">Log In here!</a> </span>
             </div>
         </div>
