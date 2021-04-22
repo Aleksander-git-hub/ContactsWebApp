@@ -17,7 +17,7 @@ public class MessageGenerate {
     public static String getMessageForUser(UserEntity user) {
         return String.format(
                 "Hello, %s!\n" +
-                        "Welcome to ContactsApp! Please, visit next link:\n " +
+                        "Welcome to ContactsApp! Please, visit next link for validation:\n " +
                         "http://%s/registration/activate/%s",
                 user.getUsername(),
                 hostname,
