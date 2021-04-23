@@ -1,5 +1,6 @@
 package com.home.contacts.service;
 
+import com.home.contacts.dto.EmailUpdateDto;
 import com.home.contacts.dto.PasswordUpdateDto;
 import com.home.contacts.dto.UserCreationDto;
 import com.home.contacts.dto.UserUpdateDto;
@@ -18,4 +19,6 @@ public interface UserService {
     void update(UserUpdateDto user, Long id);
 
     void updatePassword(PasswordUpdateDto passwordDto, UserEntity user);
+
+    void updateEmail(EmailUpdateDto emailDto, UserEntity user);
 }

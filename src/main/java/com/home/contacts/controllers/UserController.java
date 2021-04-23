@@ -1,5 +1,6 @@
 package com.home.contacts.controllers;
 
+import com.home.contacts.dto.EmailUpdateDto;
 import com.home.contacts.dto.PasswordUpdateDto;
 import com.home.contacts.dto.UserUpdateDto;
 import com.home.contacts.entity.UserEntity;
@@ -58,7 +59,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/user-update-password")
-    public String updateUsername(@ModelAttribute("user") @Valid PasswordUpdateDto passwordDto,
+    public String updatePassword(@ModelAttribute("user") @Valid PasswordUpdateDto passwordDto,
                                  BindingResult result, Principal principal) {
         UserEntity existingUser = userService.findByUsername(principal.getName());
 
@@ -75,6 +76,30 @@ public class UserController {
         }
 
         userService.updatePassword(passwordDto, existingUser);
+        return "confirm_updated";
+    }
+
+    @GetMapping(value = "/user-update-email")
+    public String showEmailUpdateForm(Model model, Principal principal) {
+        model.addAttribute("user",
+                userMapper.toEmailUpdateDto(userService.findByUsername(principal.getName())));
+        return "email";
+    }
+
+    @PostMapping(value = "/user-update-email")
+    public String updateEmail(@ModelAttribute("user") @Valid EmailUpdateDto emailDto,
+                              BindingResult result, Principal principal) {
+        UserEntity existingUser = userService.findByUsername(principal.getName());
+
+        if (!emailDto.getOldEmail().equals(existingUser.getEmail())) {
+            result.rejectValue("oldEmail", null, "Incorrect email!");
+        }
+
+        if (result.hasErrors()) {
+            return "email";
+        }
+
+        userService.updateEmail(emailDto, existingUser);
         return "confirm_updated";
     }
 }

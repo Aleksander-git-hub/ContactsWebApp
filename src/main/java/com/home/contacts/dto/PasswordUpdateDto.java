@@ -18,11 +18,6 @@ import javax.validation.constraints.NotEmpty;
                 firstField = "newPassword",
                 secondField = "confirmPassword",
                 message = "Passwords do not match!"
-        ),
-        @FieldMatch(
-                firstField = "email",
-                secondField = "confirmEmail",
-                message = "Email do not match!"
         )
 })
 public class PasswordUpdateDto {
@@ -41,8 +36,4 @@ public class PasswordUpdateDto {
     @Email
     @NotEmpty(message = "Email field should be not empty")
     private String email;
-
-    @Email
-    @NotEmpty(message = "Confirm your email!")
-    private String confirmEmail;
 }

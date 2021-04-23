@@ -1,5 +1,6 @@
 package com.home.contacts.service.impl;
 
+import com.home.contacts.dto.EmailUpdateDto;
 import com.home.contacts.dto.PasswordUpdateDto;
 import com.home.contacts.dto.UserCreationDto;
 import com.home.contacts.dto.UserUpdateDto;
@@ -104,17 +105,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(PasswordUpdateDto passwordDto, UserEntity user) {
         user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
-        user.setUpdated(new Date());
-        user.setStatus(Status.NOT_CONFIRMED);
-        user.setActivationCode(UUID.randomUUID().toString());
-        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+        userChanger(user);
         sendMessageForValidation(user);
+        userRepository.save(user);
+    }
 
+    @Transactional
+    @Override
+    public void updateEmail(EmailUpdateDto emailDto, UserEntity user) {
+        user.setEmail(emailDto.getNewEmail());
+        userChanger(user);
+        sendMessageForValidation(user);
         userRepository.save(user);
     }
 
     private void sendMessageForValidation(UserEntity user) {
         String message = MessageGenerate.getMessageForUser(user);
         mailSender.send(user.getEmail(), "Activation code", message);
+    }
+
+    private void userChanger(UserEntity user) {
+        user.setUpdated(new Date());
+        user.setStatus(Status.NOT_CONFIRMED);
+        user.setActivationCode(UUID.randomUUID().toString());
+        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
     }
 }
