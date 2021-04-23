@@ -3,6 +3,7 @@ package com.home.contacts.controllers;
 import com.home.contacts.dto.EmailUpdateDto;
 import com.home.contacts.dto.PasswordUpdateDto;
 import com.home.contacts.dto.UserUpdateDto;
+import com.home.contacts.dto.UsernameDto;
 import com.home.contacts.entity.UserEntity;
 import com.home.contacts.mapper.UserMapper;
 import com.home.contacts.service.UserService;
@@ -100,6 +101,34 @@ public class UserController {
         }
 
         userService.updateEmail(emailDto, existingUser);
+        return "confirm_updated";
+    }
+
+    @GetMapping(value = "/user-update-username")
+    public String showUsernameUpdateForm(Model model, Principal principal) {
+        model.addAttribute("user",
+                userMapper.toUsernameDto(userService.findByUsername(principal.getName())));
+        return "username";
+    }
+
+    @PostMapping(value = "/user-update-username")
+    public String updateUsername(@ModelAttribute("user") @Valid UsernameDto usernameDto,
+                                 BindingResult result, Principal principal) {
+        UserEntity existingUser = userService.findByUsername(principal.getName());
+
+        if (!usernameDto.getEmail().equals(existingUser.getEmail())) {
+            result.rejectValue("email", null, "Incorrect email!");
+        }
+
+        if (userService.findByUsername(usernameDto.getNewUsername()) != null) {
+            result.rejectValue("newUsername", null, "There is already an account with that email");
+        }
+
+        if (result.hasErrors()) {
+            return "username";
+        }
+
+        userService.updateUsername(usernameDto, existingUser);
         return "confirm_updated";
     }
 }

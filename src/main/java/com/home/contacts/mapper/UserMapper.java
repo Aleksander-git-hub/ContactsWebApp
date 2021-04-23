@@ -3,6 +3,7 @@ package com.home.contacts.mapper;
 import com.home.contacts.dto.EmailUpdateDto;
 import com.home.contacts.dto.UserUpdateDto;
 import com.home.contacts.dto.PasswordUpdateDto;
+import com.home.contacts.dto.UsernameDto;
 import com.home.contacts.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,4 +20,6 @@ public interface UserMapper {
     PasswordUpdateDto toPasswordUpdateDto(UserEntity byUsername);
 
     EmailUpdateDto toEmailUpdateDto(UserEntity byUsername);
+
+    UsernameDto toUsernameDto(UserEntity byUsername);
 }

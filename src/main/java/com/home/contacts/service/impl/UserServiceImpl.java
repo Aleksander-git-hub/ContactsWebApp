@@ -1,9 +1,6 @@
 package com.home.contacts.service.impl;
 
-import com.home.contacts.dto.EmailUpdateDto;
-import com.home.contacts.dto.PasswordUpdateDto;
-import com.home.contacts.dto.UserCreationDto;
-import com.home.contacts.dto.UserUpdateDto;
+import com.home.contacts.dto.*;
 import com.home.contacts.email.MailSender;
 import com.home.contacts.entity.RoleEntity;
 import com.home.contacts.entity.UserEntity;
@@ -114,6 +111,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateEmail(EmailUpdateDto emailDto, UserEntity user) {
         user.setEmail(emailDto.getNewEmail());
+        userChanger(user);
+        sendMessageForValidation(user);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    @Override
+    public void updateUsername(UsernameDto usernameDto, UserEntity user) {
+        user.setUsername(usernameDto.getNewUsername());
         userChanger(user);
         sendMessageForValidation(user);
         userRepository.save(user);
